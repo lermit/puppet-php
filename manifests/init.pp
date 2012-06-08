@@ -156,7 +156,7 @@ class php (
   ) inherits php::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
-  bool_absent=any2bool($absent)
+  $bool_absent=any2bool($absent)
   $bool_monitor=any2bool($monitor)
   $bool_puppi=any2bool($puppi)
   $bool_debug=any2bool($debug)
