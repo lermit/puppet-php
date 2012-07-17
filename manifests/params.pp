@@ -34,12 +34,12 @@ class php::params {
 
   $config_dir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/php5',
-    default                   => '/etc/php',
+    default                   => '/etc/php.d',
   }
 
   $config_file = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/php5/php.ini',
-    default => '/etc/php/php.ini',
+    default => '/etc/php.ini',
   }
 
   $config_file_mode = $::operatingsystem ? {
