@@ -226,7 +226,7 @@ class php (
       require => Package['php'],
       source  => $php::source_dir,
       recurse => true,
-      purge   => $php::source_dir_purge,
+      purge   => $php::bool_source_dir_purge,
       replace => $php::manage_file_replace,
       audit   => $php::manage_audit,
     }
