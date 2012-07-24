@@ -70,7 +70,7 @@ class php::params {
   $my_class = ''
   $source = ''
   $source_dir = ''
-  $source_dir_purge = 'false'
+  $source_dir_purge = false
   $template = ''
   $options = ''
   $version = 'present'
