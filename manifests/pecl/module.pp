@@ -19,7 +19,7 @@ define php::pecl::module (
   $preferred_state = 'stable',
   $auto_answer     = '\\n' ) {
 
-  include php::pecl
+  include php
 
   case $use_package {
     yes: {
