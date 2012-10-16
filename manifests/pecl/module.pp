@@ -15,6 +15,7 @@
 # php::pecl::module { Crypt-CHAP: }
 #
 define php::pecl::module (
+  $service         = $php::service,
   $use_package     = 'yes',
   $preferred_state = 'stable',
   $auto_answer     = '\\n' ) {
@@ -30,7 +31,7 @@ define php::pecl::module (
           default => "php-${name}",
           },
         ensure => present,
-        notify => Service["apache"],
+        notify => Service[$service],
       }
     }
     default: {
