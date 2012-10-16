@@ -131,6 +131,7 @@
 class php (
   $my_class            = params_lookup( 'my_class' ),
   $service             = params_lookup( 'service' ),
+  $service_autorestart = params_lookup( 'service_autorestart' ),
   $source              = params_lookup( 'source' ),
   $source_dir          = params_lookup( 'source_dir' ),
   $source_dir_purge    = params_lookup( 'source_dir_purge' ),
@@ -146,6 +147,7 @@ class php (
   $debug               = params_lookup( 'debug' , 'global' ),
   $audit_only          = params_lookup( 'audit_only' , 'global' ),
   $package             = params_lookup( 'package' ),
+  $module_prefix       = params_lookup( 'module_prefix' ),
   $config_dir          = params_lookup( 'config_dir' ),
   $config_file         = params_lookup( 'config_file' ),
   $config_file_mode    = params_lookup( 'config_file_mode' ),
