@@ -41,11 +41,11 @@
 #
 #
 define php::module (
-  $version             = $php::params::version,
-  $service_autorestart = $php::params::service_autorestart,
-  $service             = $php::params::service,
-  $module_prefix       = $php::params::module_prefix,
-  $absent              = $php::params::absent
+  $version             = $php::version,
+  $service_autorestart = $php::service_autorestart,
+  $service             = $php::service,
+  $module_prefix       = $php::module_prefix,
+  $absent              = $php::absent
   ) {
 
   include php
