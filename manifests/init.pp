@@ -13,6 +13,10 @@
 #   If defined, php class will automatically "include $my_class"
 #   Can be defined also by the (top scope) variable $php_myclass
 #
+# [*service*]
+#   The service that runs the php interpreter. Defines what service gets
+#   notified. Default: apache2|httpd.
+#
 # [*source*]
 #   Sets the content of source parameter for main configuration file
 #   If defined, php main config file will have the param: source => $source
@@ -126,6 +130,7 @@
 #
 class php (
   $my_class            = params_lookup( 'my_class' ),
+  $service             = params_lookup( 'service' ),
   $source              = params_lookup( 'source' ),
   $source_dir          = params_lookup( 'source_dir' ),
   $source_dir_purge    = params_lookup( 'source_dir_purge' ),
