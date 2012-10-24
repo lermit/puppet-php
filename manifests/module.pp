@@ -64,7 +64,7 @@ define php::module (
   $real_install_package = "${module_prefix}${name}"
 
   package { "PhpModule_${name}":
-    ensure  => $version,
+    ensure  => $real_version,
     name    => $real_install_package,
     notify  => $manage_service_autorestart,
     require => Package['php'],
