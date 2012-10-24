@@ -17,6 +17,7 @@
 # php::pear::module { Crypt-CHAP: }
 #
 define php::pear::module ( 
+  $service         = $php::service,
   $use_package     = 'yes',
   $preferred_state = 'stable') {
 
@@ -31,7 +32,7 @@ define php::pear::module (
           default => "pear-${name}",
           },
         ensure => present,
-        notify => Service["apache"],
+        notify => Service[$service],
       }
     }
     default: {
