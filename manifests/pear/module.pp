@@ -11,6 +11,10 @@
 #   (default="stable") - Define which preferred state to use when installing
 #   Pear modules via pear via command line (when use_package=no)
 #
+# [*alldeps*]
+#   (default="false") - Define if all the available (optional) modules should
+#   be installed. (when use_package=no)
+#
 # Usage:
 # php::pear::module { packagename: }
 # Example:
@@ -19,7 +23,9 @@
 define php::pear::module ( 
   $service         = $php::service,
   $use_package     = 'yes',
-  $preferred_state = 'stable') {
+  $preferred_state = 'stable',
+  $alldeps         = false,
+  ) {
 
   include php::pear
 
@@ -37,10 +43,13 @@ define php::pear::module (
     }
     default: {
       exec { "pear-${name}":
-        command => "pear -d preferred_state=${preferred_state} install ${name}",
+        command => $alldeps ? {
+          true  => "pear -d preferred_state=${preferred_state} install --alldeps ${name}",
+          false => "pear -d preferred_state=${preferred_state} install ${name}",
+        },
         unless  => "pear info ${name}",
-        path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-        require => Package['php-pear'],
+        path    => $php::pear::path,
+        require => Package[$php::pear::package],
       }
     }
   } # End Case

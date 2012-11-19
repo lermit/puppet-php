@@ -19,8 +19,9 @@
 #   Default: true
 #
 class php::pear (
-  $package = "php-pear",
-  $install_package = true
+  $package         = 'php-pear',
+  $install_package = true,
+  $path            = '/usr/bin:/usr/sbin:/bin:/sbin',
   ) {
 
   include php
