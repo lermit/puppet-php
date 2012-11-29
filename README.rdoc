@@ -2,7 +2,7 @@
 
 This is a Puppet module for php based on the second generation layout ("NextGen") of Example42 Puppet Modules.
 
-Made by Romain THERRAT / Carpe-Hora
+Made by ALessandro Franceschi / Lab42
 
 Official site: http://www.example42.com
 
@@ -61,6 +61,29 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         php::module { "apc": 
           module_prefix => "php-"
         }
+
+
+== USAGE - Pear Management
+
+* Install a pear package 
+
+        php::pear::module { "XML_Util": }
+
+* Set a config option 
+
+        php::pear::config { http_proxy: value => "myproxy:8080" }
+
+
+== USAGE - Pecl Management
+
+* Install a pecl package
+
+        php::pecl::module { "XML_Util": }
+
+* Set a config option 
+
+        php::pecl::config { http_proxy: value => "myproxy:8080" }
+
 
 == USAGE - Overrides and Customizations
 * Use custom sources for main config file
