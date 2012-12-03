@@ -16,7 +16,9 @@
 #
 define php::pecl::module (
   $service         = $php::service,
+  $ensure          = present,
   $use_package     = 'yes',
+  $manage_ini      = false,
   $preferred_state = 'stable',
   $auto_answer     = '\\n' ) {
 
@@ -30,7 +32,7 @@ define php::pecl::module (
           debian  => "php5-${name}",
           default => "php-${name}",
           },
-        ensure => present,
+        ensure => $ensure,
         notify => Service[$service],
       }
     }
@@ -39,8 +41,17 @@ define php::pecl::module (
         command => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
         unless  => "pecl info ${name}",
         require => Package["php-pear"],
+        #FIXME: Implement ensure => absent,
+      }
+      augeas { "php_ini-${name}":
+        incl    => $config_file,
+        lens    => 'Php.lns',
+        changes => $ensure ? {
+          present => [ "set 'PHP/extension[. = \"${name}.so\"]' ${name}.so" ],
+          absent  => [ "rm 'PHP/extension[. = \"${name}.so\"]'" ],
+        },
+        notify => Service[$service],
       }
     }
   } # End Case
-  
 }
