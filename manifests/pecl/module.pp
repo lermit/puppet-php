@@ -43,14 +43,16 @@ define php::pecl::module (
         require => Package["php-pear"],
         #FIXME: Implement ensure => absent,
       }
-      augeas { "php_ini-${name}":
-        incl    => $config_file,
-        lens    => 'Php.lns',
-        changes => $ensure ? {
-          present => [ "set 'PHP/extension[. = \"${name}.so\"]' ${name}.so" ],
-          absent  => [ "rm 'PHP/extension[. = \"${name}.so\"]'" ],
-        },
-        notify => Service[$service],
+      if $manage_ini == true {
+        augeas { "php_ini-${name}":
+          incl    => $config_file,
+          lens    => 'Php.lns',
+          changes => $ensure ? {
+            present => [ "set 'PHP/extension[. = \"${name}.so\"]' ${name}.so" ],
+            absent  => [ "rm 'PHP/extension[. = \"${name}.so\"]'" ],
+          },
+          notify => Service[$service],
+        }
       }
     }
   } # End Case
