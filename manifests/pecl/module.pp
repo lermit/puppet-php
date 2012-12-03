@@ -45,7 +45,7 @@ define php::pecl::module (
       }
       if $manage_ini == true {
         augeas { "php_ini-${name}":
-          incl    => $config_file,
+          incl    => $php::config_file,
           lens    => 'Php.lns',
           changes => $ensure ? {
             present => [ "set 'PHP/extension[. = \"${name}.so\"]' ${name}.so" ],
