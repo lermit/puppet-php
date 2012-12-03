@@ -125,9 +125,6 @@
 # See README for details.
 #
 #
-# == Author
-#   Romain THERRAT <romain42@gmail.com/>
-#
 class php (
   $my_class            = params_lookup( 'my_class' ),
   $service             = params_lookup( 'service' ),
@@ -162,6 +159,7 @@ class php (
   $protocol            = params_lookup( 'protocol' )
   ) inherits php::params {
 
+  $bool_service_autorestart=any2bool($service_autorestart)
   $bool_source_dir_purge=any2bool($source_dir_purge)
   $bool_absent=any2bool($absent)
   $bool_monitor=any2bool($monitor)
