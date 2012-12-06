@@ -1,10 +1,20 @@
 # Class: php::augeas
 #
-# Manage php.ini through augeas
+# Manage php.ini with augeas
 #
 # Usage:
-# php::augeas {
 #
+#  php::augeas { 
+#    'php-memorylimit':
+#      target => '/usr/local/zend/etc/php.ini',
+#      entry  => 'PHP/memory_limit',
+#      value  => '128M',
+#    'php-error_log':
+#      target => '/usr/local/zend/etc/php.ini',
+#      entry  => 'PHP/error_log',
+#      ensure => absent,
+#  }
+
 define php::augeas (
   $target = $php::config_file,
   $entry,
