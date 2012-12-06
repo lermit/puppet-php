@@ -16,6 +16,7 @@
 #
 define php::pecl::module (
   $service         = $php::service,
+  $ensure          = present,
   $use_package     = 'yes',
   $preferred_state = 'stable',
   $auto_answer     = '\\n' ) {
@@ -30,7 +31,7 @@ define php::pecl::module (
           debian  => "php5-${name}",
           default => "php-${name}",
           },
-        ensure => present,
+        ensure => $ensure,
         notify => Service[$service],
       }
     }
@@ -39,8 +40,17 @@ define php::pecl::module (
         command => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
         unless  => "pecl info ${name}",
         require => Package["php-pear"],
+        #FIXME: Implement ensure => absent,
+      }
+      if $php::bool_augeas == true {
+        php::augeas {
+          "augeas-${name}":
+            entry  => "PHP/extension[. = \"${name}.so\"]",
+            value  => "${name}.so",
+            ensure => $ensure,
+            notify => Service[$service],
+        }
       }
     }
   } # End Case
-  
 }
