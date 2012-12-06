@@ -43,14 +43,12 @@ define php::pecl::module (
         #FIXME: Implement ensure => absent,
       }
       if $php::bool_augeas == true {
-        augeas { "php_ini-${name}":
-          incl    => $php::config_file,
-          lens    => 'Php.lns',
-          changes => $ensure ? {
-            present => [ "set 'PHP/extension[. = \"${name}.so\"]' ${name}.so" ],
-            absent  => [ "rm 'PHP/extension[. = \"${name}.so\"]'" ],
+        php::augeas {
+          "augeas-${name}":
+            entry  => "PHP/extension[. = \"${name}.so\"]",
+            value  => "${name}.so",
+            notify => Service[$service],
           },
-          notify => Service[$service],
         }
       }
     }
