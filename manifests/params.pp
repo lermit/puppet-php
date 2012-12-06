@@ -71,6 +71,7 @@ class php::params {
   $source = ''
   $source_dir = ''
   $source_dir_purge = false
+  $augeas = false
   $template = ''
   $options = ''
   $version = 'present'

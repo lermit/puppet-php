@@ -18,7 +18,6 @@ define php::pecl::module (
   $service         = $php::service,
   $ensure          = present,
   $use_package     = 'yes',
-  $manage_ini      = false,
   $preferred_state = 'stable',
   $auto_answer     = '\\n' ) {
 
@@ -43,7 +42,7 @@ define php::pecl::module (
         require => Package["php-pear"],
         #FIXME: Implement ensure => absent,
       }
-      if $manage_ini == true {
+      if $php::bool_augeas == true {
         augeas { "php_ini-${name}":
           incl    => $php::config_file,
           lens    => 'Php.lns',
