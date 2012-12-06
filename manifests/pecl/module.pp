@@ -48,7 +48,7 @@ define php::pecl::module (
             entry  => "PHP/extension[. = \"${name}.so\"]",
             value  => "${name}.so",
             notify => Service[$service],
-          },
+          }
         }
       }
     }
