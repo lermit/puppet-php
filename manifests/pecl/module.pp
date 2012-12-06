@@ -47,6 +47,7 @@ define php::pecl::module (
           "augeas-${name}":
             entry  => "PHP/extension[. = \"${name}.so\"]",
             value  => "${name}.so",
+            ensure => $ensure,
             notify => Service[$service],
         }
       }
