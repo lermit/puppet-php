@@ -31,7 +31,7 @@
 # [*source_dir_purge*]
 #   If set to true (default false) the existing configuration directory is
 #   mirrored with the content retrieved from source_dir
-#   (source => $source_dir , recurse => true , purge => true)
+#   (source => $source_dir , recurse => true , purge => true, force => true)
 #   Can be defined also by the (top scope) variable $php_source_dir_purge
 #
 # [*template*]
@@ -250,6 +250,7 @@ class php (
       source  => $php::source_dir,
       recurse => true,
       purge   => $php::bool_source_dir_purge,
+      force   => $php::bool_source_dir_force,
       replace => $php::manage_file_replace,
       audit   => $php::manage_audit,
     }
