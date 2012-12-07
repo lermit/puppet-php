@@ -250,7 +250,7 @@ class php (
       source  => $php::source_dir,
       recurse => true,
       purge   => $php::bool_source_dir_purge,
-      force   => $php::bool_source_dir_force,
+      force   => $php::bool_source_dir_purge,
       replace => $php::manage_file_replace,
       audit   => $php::manage_audit,
     }
