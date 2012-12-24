@@ -2,26 +2,54 @@
 #
 # Installs the defined php pecl component
 #
-# Variables:
-# $use_package (default="yes") - Tries to install pecl module with the relevant package
-#                If set to "no" it installs the module via pecl command
-# $preferred_state (default="stable") - Define which preferred state to use when installing Pear modules via pecl
-#                command line (when use_package=no)
-# $auto_answer (default="\n") - The answer(s) to give to pecl prompts for unattended installs
+# == Parameters
 #
-# Usage:
-# php::pecl::module { packagename: }
-# Example:
-# php::pecl::module { Crypt-CHAP: }
+# [*service_autorestart*]
+#   wathever we want a module installation notify a service to restart.
+#
+# [*service*]
+#   Service to restart.
+#
+# [*use_package*]
+#   Tries to install pecl module with the relevant package.
+#   If set to "no" it installs the module via pecl command. Default: true
+#
+# [*preferred_state*]
+#   Define which preferred state to use when installing Pear modules via pecl
+#   command line (when use_package=no). Default: true
+#
+# [*auto_answer*]
+#   The answer(s) to give to pecl prompts for unattended install
+#
+# [*verbose*]
+#   (Optional) - If you want to see verbose pecl output during installation.
+#   This can help to debug installation problems (missing packages) during
+#   installation process. Default: false
+#
+# == Examples
+# php::pecl::module { 'intl': }
+#
+# This will install xdebug from pecl source instead of using the package
+#
+# php::pecl::module { 'xdebug':.
+#   use_package => "no",
+# }
 #
 define php::pecl::module (
-  $service         = $php::service,
-  $ensure          = present,
-  $use_package     = 'yes',
-  $preferred_state = 'stable',
-  $auto_answer     = '\\n' ) {
+  $service_autorestart = $php::bool_service_autorestart,
+  $service             = $php::service,
+  $use_package         = 'yes',
+  $preferred_state     = 'stable',
+  $auto_answer         = '\\n',
+  $ensure              = present,
+  $verbose             = false ) {
 
   include php
+
+  $manage_service_autorestart = $service_autorestart ? {
+    true    => "Service[$service]",
+    false   => undef,
+  }
 
   case $use_package {
     yes: {
@@ -32,14 +60,23 @@ define php::pecl::module (
           default => "php-${name}",
           },
         ensure => $ensure,
-        notify => Service[$service],
+        notify => $manage_service_autorestart,
       }
     }
     default: {
+
+      $bool_verbose = any2bool($verbose)
+
+      $pecl_real_logoutput = $bool_verbose ? {
+        true  => true,
+        false => undef,
+      }
+
       exec { "pecl-${name}":
         command => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
         unless  => "pecl info ${name}",
-        require => Package["php-pear"],
+        logoutput => $pecl_real_logoutput,
+        require => [Package["php-pear"], Php::Module["dev"]]
         #FIXME: Implement ensure => absent,
       }
       if $php::bool_augeas == true {
@@ -48,7 +85,7 @@ define php::pecl::module (
             entry  => "PHP/extension[. = \"${name}.so\"]",
             value  => "${name}.so",
             ensure => $ensure,
-            notify => Service[$service],
+            notify => $manage_service_autorestart,
         }
       }
     }
