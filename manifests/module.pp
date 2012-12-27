@@ -39,7 +39,7 @@
 #   module_prefix => "php-",
 # }
 #
-# Note that you mys include or declare the php class when using
+# Note that you may include or declare the php class when using
 # the php::module define
 #
 define php::module (
