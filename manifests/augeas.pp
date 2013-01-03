@@ -21,6 +21,8 @@ define php::augeas (
   $value = "",
   $ensure = present,
   ) {
+  
+  include php
    
   $service = $php::service
 
