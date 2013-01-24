@@ -63,7 +63,7 @@ define php::augeas (
   $service = $php::service
 
   $changes = $ensure ? {
-    present => [ "set '${entry}' $value" ],
+    present => [ "set '${entry}' '${value}'" ],
     absent  => [ "rm '${entry}'" ],
   }
 
