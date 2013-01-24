@@ -80,7 +80,7 @@ define php::pecl::module (
         command   => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
         unless    => "pecl info ${name}",
         logoutput => $pecl_real_logoutput,
-        require   => [ Package['php-pear'], Class['php::devel']],
+        require   => [ Class['php::pear'], Class['php::devel']],
         #FIXME: Implement ensure => absent,
       }
       if $php::bool_augeas == true {
