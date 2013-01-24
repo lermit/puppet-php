@@ -45,9 +45,13 @@ define php::pecl::module (
   $verbose             = false ) {
 
   include php
+  include php::devel
 
   $manage_service_autorestart = $service_autorestart ? {
-    true    => "Service[$service]",
+    true    => $service ? {
+      ''      => undef,
+      default => "Service[$service]",
+    },
     false   => undef,
   }
 
@@ -73,10 +77,10 @@ define php::pecl::module (
       }
 
       exec { "pecl-${name}":
-        command => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
-        unless  => "pecl info ${name}",
+        command   => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
+        unless    => "pecl info ${name}",
         logoutput => $pecl_real_logoutput,
-        require => [Package["php-pear"], Php::Module["dev"]]
+        require   => [ Package['php-pear'], Class['php::devel']],
         #FIXME: Implement ensure => absent,
       }
       if $php::bool_augeas == true {

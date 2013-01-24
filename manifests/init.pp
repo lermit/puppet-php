@@ -5,6 +5,10 @@
 #
 # == Parameters
 #
+# Module specific parameters
+# [*package_devel*]
+#   Name of the php-devel package
+#
 # Standard class parameters
 # Define the general class behaviour and customizations
 #
@@ -132,6 +136,7 @@
 #
 #
 class php (
+  $package_devel       = params_lookup( 'package_devel' ),
   $my_class            = params_lookup( 'my_class' ),
   $service             = params_lookup( 'service' ),
   $service_autorestart = params_lookup( 'service_autorestart' ),
