@@ -37,6 +37,10 @@ class php::params {
     default                   => '/etc/php.d',
   }
 
+  $module_config_dir = $::operatingsystem ? {
+    default => "${config_dir}/conf.d",
+  }
+
   $config_file = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/php5/php.ini',
     default => '/etc/php.ini',

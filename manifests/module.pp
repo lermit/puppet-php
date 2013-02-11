@@ -74,6 +74,7 @@ define php::module (
   if !($module_config_file == '' or $absent) {
     file { "PhpModule_conf_${name}":
       ensure => present,
+      path   => "${php::params::module_config_dir}/${name}.ini",
       source => $module_config_file,
       owner  => $php::params::config_file_owner,
       group  => $php::params::config_file_group,
