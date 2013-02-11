@@ -76,6 +76,7 @@ class php::params {
   $version = 'present'
   $service_autorestart = true
   $absent = false
+  $module_config_file = ''
 
   ### General module variables that can have a site or per module default
   $puppi = false
