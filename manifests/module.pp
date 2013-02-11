@@ -78,6 +78,7 @@ define php::module (
       owner  => $php::params::config_file_owner,
       group  => $php::params::config_file_group,
       mode   => $php::params::config_file_mode,
+    }
   }
 
 }
