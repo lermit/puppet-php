@@ -45,7 +45,8 @@ define php::module (
   $service_autorestart = $php::params::service_autorestart,
   $service             = $php::params::service,
   $module_prefix       = $php::params::module_prefix,
-  $absent              = $php::params::absent
+  $absent              = $php::params::absent,
+  $module_config_file  = $php::params::module_config_file
   ) {
 
   include php
@@ -68,6 +69,17 @@ define php::module (
     name    => $real_install_package,
     notify  => $manage_service_autorestart,
     require => Package['php'],
+  }
+
+  if !($module_config_file == '' or $absent) {
+    file { "PhpModule_conf_${name}":
+      ensure => present,
+      path   => "${php::params::module_config_dir}/${name}.ini",
+      source => $module_config_file,
+      owner  => $php::params::config_file_owner,
+      group  => $php::params::config_file_group,
+      mode   => $php::params::config_file_mode,
+    }
   }
 
 }

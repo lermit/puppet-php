@@ -223,6 +223,9 @@ class php (
     file { 'php.dir':
       ensure  => directory,
       path    => $php::config_dir,
+      mode    => $php::config_file_mode,
+      owner   => $php::config_file_owner,
+      group   => $php::config_file_group,
       require => Package['php'],
       source  => $php::source_dir,
       recurse => true,
