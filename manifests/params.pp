@@ -21,8 +21,8 @@ class php::params {
 
   ### Application related parameters
   $module_prefix = $::operatingsystem ? {
-    /(?i:Ubuntu|Debian|Mint)/ => 'php5-',
-    default                   => 'php-',
+    /(?i:Ubuntu|Debian|Mint|SLES|OpenSuSE)/ => 'php5-',
+    default                                 => 'php-',
   }
 
   $package = $::operatingsystem ? {
