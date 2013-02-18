@@ -19,7 +19,7 @@
 #   Default: true
 #
 class php::pear (
-  $package         = 'php-pear',
+  $package         = $php::package_pear,
   $install_package = true,
   $path            = '/usr/bin:/usr/sbin:/bin:/sbin',
   ) {
