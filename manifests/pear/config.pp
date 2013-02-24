@@ -13,7 +13,7 @@ define php::pear::config ($value) {
       command => "pear config-set ${name} ${value}",
       path    => $php::pear::path,
       unless  => "pear config-get ${name} | grep ${value}",
-      require => Package[$php::pear::package],
+      require => Package['php-pear'],
   }
 
 }

@@ -66,7 +66,7 @@ define php::pear::module (
         command => $pear_exec_command,
         unless  => "pear info ${pear_source}",
         path    => $php::pear::path,
-        require => Package[$php::package_pear],
+        require => Package['php-pear'],
       }
     }
   } # End Case
