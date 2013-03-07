@@ -1,4 +1,4 @@
-= Puppet module: php
+# Puppet module: php
 
 This is a Puppet module for php based on the second generation layout ("NextGen") of Example42 Puppet Modules.
 
@@ -14,7 +14,7 @@ This module requires functions provided by the Example42 Puppi module (you need 
 
 For detailed info about the logic and usage patterns of Example42 modules check the DOCS directory on Example42 main modules set.
 
-== USAGE - Basic management
+## USAGE - Basic management
 
 * Install php with default settings
 
@@ -38,7 +38,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           audit_only => true
         }
 
-== USAGE - Module installation
+## USAGE - Module installation
 
 * Install a new module
 
@@ -63,7 +63,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-== USAGE - Pear Management
+## USAGE - Pear Management
 
 * Install a pear package 
 
@@ -74,7 +74,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         php::pear::config { http_proxy: value => "myproxy:8080" }
 
 
-== USAGE - Pecl Management
+## USAGE - Pecl Management
 
 * Install a pecl package
 
@@ -85,7 +85,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         php::pecl::config { http_proxy: value => "myproxy:8080" }
 
 
-== USAGE - Overrides and Customizations
+## USAGE - Overrides and Customizations
 * Use custom sources for main config file
 
         class { 'php':
