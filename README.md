@@ -115,3 +115,5 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 
 
+
+[![Build Status](https://travis-ci.org/example42/puppet-php.png?branch=master)](https://travis-ci.org/example42/puppet-php)
