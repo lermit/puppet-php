@@ -21,7 +21,7 @@ class php::params {
   }
 
   $package_pear = $::operatingsystem ? {
-    /(?i:Ubuntu|Debian|Mint)/ => 'php5-pear',
+    /(?i:Ubuntu|Debian|Mint)/ => 'php-pear',
     /(?i:SLES|OpenSuSe)/      => 'php5-pear',
     default                   => 'php-pear',
   }
