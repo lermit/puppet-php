@@ -69,6 +69,13 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
         php::pear::module { "XML_Util": }
 
+* Install a pear package from a remote repository
+
+        php::pear::module { 'PHPUnit':
+          repository  => 'pear.phpunit.de',
+          use_package => 'no',
+        }
+
 * Set a config option 
 
         php::pear::config { http_proxy: value => "myproxy:8080" }
