@@ -42,7 +42,8 @@ define php::pecl::module (
   $preferred_state     = 'stable',
   $auto_answer         = '\\n',
   $ensure              = present,
-  $verbose             = false ) {
+  $verbose             = false,
+  $config_file         = $php::config_file) {
 
   include php
   include php::devel
@@ -90,6 +91,7 @@ define php::pecl::module (
             value  => "${name}.so",
             ensure => $ensure,
             notify => $manage_service_autorestart,
+            target => $config_file,
         }
       }
     }
