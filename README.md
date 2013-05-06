@@ -64,14 +64,14 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 * By default module package name is php-$title for RedHat and php5-$title . You can override this prefix.
 
-        php::module { "apc": 
+        php::module { "apc":
           module_prefix => "php-"
         }
 
 
 ## USAGE - Pear Management
 
-* Install a pear package 
+* Install a pear package
 
         php::pear::module { "XML_Util": }
 
@@ -82,7 +82,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           use_package => 'no',
         }
 
-* Set a config option 
+* Set a config option
 
         php::pear::config { http_proxy: value => "myproxy:8080" }
 
@@ -93,7 +93,14 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
         php::pecl::module { "XML_Util": }
 
-* Set a config option 
+* Install a pecl package from source specifying the preferred state (note that you must have the package 'make' installed on your system)
+
+        php::pecl::module { "xhprof":
+          use_package     => 'false',
+          preferred_state => 'beta',
+        }
+
+* Set a config option
 
         php::pecl::config { http_proxy: value => "myproxy:8080" }
 
