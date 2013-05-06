@@ -20,7 +20,7 @@
 # Example:
 # php::pear::module { Crypt-CHAP: }
 #
-define php::pear::module ( 
+define php::pear::module (
   $service             = $php::service,
   $use_package         = true,
   $preferred_state     = 'stable',
@@ -45,6 +45,10 @@ define php::pear::module (
     default   => "${repository}/${name}-${version}",
   }
   $pear_exec_command="pear -d preferred_state=${preferred_state} install ${manage_alldeps} ${pear_source}"
+  $pear_exec_require = $repository ? {
+    'pear.php.net' => Package['php-pear'],
+    default        => [ Package['php-pear'],Php::Pear::Config['auto_discover'] ],
+  }
 
   case $bool_use_package {
     true: {
@@ -56,19 +60,19 @@ define php::pear::module (
     }
     default: {
       if $repository != 'pear.php.net' {
-        @php::pear::config { 'auto_discover':
-          value => '1',
-          before => Exec["pear-${name}"],
+        if !defined (Php::Pear::Config['auto_discover']) {
+          php::pear::config { 'auto_discover':
+            value => '1',
+          }
         }
-        Php::Pear::Config <| title == 'auto_discover' |>
       }
       exec { "pear-${name}":
         command => $pear_exec_command,
         unless  => "pear info ${pear_source}",
         path    => $php::pear::path,
-        require => Package['php-pear'],
+        require => $pear_exec_require,
       }
     }
   } # End Case
-  
+
 }
