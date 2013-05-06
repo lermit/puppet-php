@@ -29,6 +29,7 @@ define php::pear::module (
   $repository          = 'pear.php.net',
   $service_autorestart = $php::manage_service_autorestart,
   $module_prefix       = $php::pear_module_prefix,
+  $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
   $ensure              = 'present'
   ) {
 
@@ -40,14 +41,30 @@ define php::pear::module (
     true  => '--alldeps',
     false => '',
   }
+
   $pear_source = $version ? {
     'present' => "${repository}/${name}",
     default   => "${repository}/${name}-${version}",
   }
-  $pear_exec_command="pear -d preferred_state=${preferred_state} install ${manage_alldeps} ${pear_source}"
+
+  $pear_exec_command = $ensure ? {
+    present => "pear -d preferred_state=${preferred_state} install ${manage_alldeps} ${pear_source}",
+    absent  => "pear uninstall -n ${pear_source}",
+  }
+
   $pear_exec_require = $repository ? {
     'pear.php.net' => Package['php-pear'],
     default        => [ Package['php-pear'],Php::Pear::Config['auto_discover'] ],
+  }
+
+  $pear_exec_unless = $ensure ? {
+    present => "pear info ${pear_source}",
+    absent  => undef
+  }
+
+  $pear_exec_onlyif = $ensure ? {
+    present => undef,
+    absent  => "pear info ${pear_source}",
   }
 
   case $bool_use_package {
@@ -68,8 +85,9 @@ define php::pear::module (
       }
       exec { "pear-${name}":
         command => $pear_exec_command,
-        unless  => "pear info ${pear_source}",
-        path    => $php::pear::path,
+        path    => $path,
+        unless  => $pear_exec_unless,
+        onlyif  => $pear_exec_onlyif,
         require => $pear_exec_require,
       }
     }
