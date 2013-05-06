@@ -42,6 +42,7 @@ define php::pecl::module (
   $preferred_state     = 'stable',
   $auto_answer         = '\\n',
   $ensure              = present,
+  $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
   $verbose             = false,
   $config_file         = $php::config_file) {
 
@@ -72,26 +73,41 @@ define php::pecl::module (
 
       $bool_verbose = any2bool($verbose)
 
-      $pecl_real_logoutput = $bool_verbose ? {
+      $pecl_exec_logoutput = $bool_verbose ? {
         true  => true,
         false => undef,
       }
 
+      $pecl_exec_command = $ensure ? {
+        present => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
+        absent  => "pecl uninstall -n ${name}",
+      }
+
+      $pecl_exec_unless = $ensure ? {
+        present => "pecl info ${name}",
+        absent  => undef
+      }
+
+      $pecl_exec_onlyif = $ensure ? {
+        present => undef,
+        absent  => "pecl info ${name}",
+      }
+
       exec { "pecl-${name}":
-        command   => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
-        unless    => "pecl info ${name}",
-        logoutput => $pecl_real_logoutput,
+        command   => $pecl_exec_command,
+        unless    => $pecl_exec_unless,
+        onlyif    => $pecl_exec_onlyif,
+        logoutput => $pecl_exec_logoutput,
+        path      => $path,
         require   => [ Class['php::pear'], Class['php::devel']],
-        #FIXME: Implement ensure => absent,
       }
       if $php::bool_augeas == true {
-        php::augeas {
-          "augeas-${name}":
-            entry  => "PHP/extension[. = \"${name}.so\"]",
-            value  => "${name}.so",
-            ensure => $ensure,
-            notify => $manage_service_autorestart,
-            target => $config_file,
+        php::augeas { "augeas-${name}":
+          entry  => "PHP/extension[. = \"${name}.so\"]",
+          value  => "${name}.so",
+          ensure => $ensure,
+          notify => $manage_service_autorestart,
+          target => $config_file,
         }
       }
     }
