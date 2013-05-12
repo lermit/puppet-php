@@ -30,7 +30,8 @@ define php::pear::module (
   $service_autorestart = $php::manage_service_autorestart,
   $module_prefix       = $php::pear_module_prefix,
   $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
-  $ensure              = 'present'
+  $ensure              = 'present',
+  $timeout             = 300
   ) {
 
   include php::pear
@@ -89,6 +90,7 @@ define php::pear::module (
         unless  => $pear_exec_unless,
         onlyif  => $pear_exec_onlyif,
         require => $pear_exec_require,
+        timeout => $timeout
       }
     }
   } # End Case
