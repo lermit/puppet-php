@@ -90,7 +90,7 @@ define php::pear::module (
         unless  => $pear_exec_unless,
         onlyif  => $pear_exec_onlyif,
         require => $pear_exec_require,
-        timeout => $timeout
+        timeout => $timeout,
       }
     }
   } # End Case
