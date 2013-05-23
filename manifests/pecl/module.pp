@@ -44,7 +44,7 @@ define php::pecl::module (
   $ensure              = present,
   $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
   $verbose             = false,
-  $version             = undef,
+  $version             = '',
   $config_file         = $php::config_file) {
 
   include php
