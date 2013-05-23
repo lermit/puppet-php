@@ -44,6 +44,7 @@ define php::pecl::module (
   $ensure              = present,
   $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
   $verbose             = false,
+  $version             = undef,
   $config_file         = $php::config_file) {
 
   include php
@@ -77,9 +78,15 @@ define php::pecl::module (
         true  => true,
         false => undef,
       }
+      
+      if $version != '' {
+        $new_version = "-${version}"
+      } else {
+        $new_version = ''
+      }
 
       $pecl_exec_command = $ensure ? {
-        present => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}",
+        present => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}${new_version}",
         absent  => "pecl uninstall -n ${name}",
       }
 
