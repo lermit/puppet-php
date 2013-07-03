@@ -18,7 +18,7 @@
 #   the module is applied. Default: true
 #
 # [*service_autorestart*]
-#   wathever we want a module installation notify a service to restart.
+#   whatever we want a module installation notify a service to restart.
 #
 # [*service*]
 #   Service to restart.
@@ -57,7 +57,7 @@ define php::module (
   }
 
   $manage_service_autorestart = $service_autorestart ? {
-    true    => "Service[$service]",
+    true    => "Service[${service}]",
     false   => undef,
   }
 
