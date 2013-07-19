@@ -4,10 +4,10 @@
 #
 class php::devel {
 
-  if $php::package_devel != '' {
-    package { 'php-devel':
+  if $php::package_devel != ''
+  and if ! defined(Package[$php::package_devel]) {
+    package { $php::package_devel :
       ensure => $php::manage_package,
-      name   => $php::package_devel,
     }
   }
 }
