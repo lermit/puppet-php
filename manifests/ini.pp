@@ -1,13 +1,12 @@
 define php::ini (
-    $value    = '',
-    $template = 'extra-ini.erb',
-    $target   = 'extra.ini',
-    $service  = $php::service
+    $value       = '',
+    $template    = 'extra-ini.erb',
+    $target      = 'extra.ini',
+    $service     = $php::service,
+    $config_dir  = $php::params::config_dir
 ) {
 
   include php
-
-  $config_dir = params_lookup( 'config_dir' )
 
   file { "${config_dir}/conf.d/${target}":
     ensure  => 'present',
