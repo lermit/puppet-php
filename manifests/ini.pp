@@ -3,7 +3,7 @@ define php::ini (
     $template    = 'extra-ini.erb',
     $target      = 'extra.ini',
     $service     = $php::service,
-    $config_dir  = $php::params::config_dir
+    $config_dir  = $php::config_dir
 ) {
 
   include php
