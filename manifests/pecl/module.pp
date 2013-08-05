@@ -48,6 +48,7 @@ define php::pecl::module (
   $config_file         = $php::config_file) {
 
   include php
+  include php::pear
   include php::devel
 
   $manage_service_autorestart = $service_autorestart ? {
@@ -78,7 +79,7 @@ define php::pecl::module (
         true  => true,
         false => undef,
       }
-      
+
       if $version != '' {
         $new_version = "-${version}"
       } else {
