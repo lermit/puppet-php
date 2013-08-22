@@ -82,6 +82,13 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           use_package => 'no',
         }
 
+* Install a pear package will all dependencies (--alldeps)
+
+        php::pear::module { 'PHPUnit':
+          repository  => 'pear.phpunit.de',
+          alldeps => 'true',
+        }
+        
 * Set a config option
 
         php::pear::config { http_proxy: value => "myproxy:8080" }
