@@ -57,6 +57,7 @@ define php::pecl::module (
       default => "Service[$service]",
     },
     false   => undef,
+    undef   => undef,
   }
 
   case $use_package {
