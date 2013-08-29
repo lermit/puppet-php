@@ -57,9 +57,9 @@ define php::augeas (
   $target = $php::config_file,
   $value  = '',
   ) {
-  
+
   include php
-   
+
   $service = $php::service
 
   $changes = $ensure ? {

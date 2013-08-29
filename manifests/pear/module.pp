@@ -71,8 +71,8 @@ define php::pear::module (
   case $bool_use_package {
     true: {
       package { "pear-${name}":
-        name    => "${module_prefix}${name}",
         ensure  => $ensure,
+        name    => "${module_prefix}${name}",
         notify  => $service_autorestart,
       }
     }

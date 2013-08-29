@@ -1,3 +1,5 @@
+# = Define: php::ini
+#
 define php::ini (
     $value       = '',
     $template    = 'extra-ini.erb',

@@ -52,7 +52,7 @@
 #   augeas. This will make php::pecl automatically add extensions to the
 #   php.ini.
 #   Can be defined also by the (top scope) variable $php_augeas
-#   
+#
 # [*options*]
 #   An hash of custom options to be used in templates for arbitrary settings.
 #   Can be defined also by the (top scope) variable $php_options
@@ -212,13 +212,13 @@ class php (
   }
 
   if ($php::source and $php::template) {
-    fail ("PHP: cannot set both source and template")
+    fail ('PHP: cannot set both source and template')
   }
   if ($php::source and $php::bool_augeas) {
-    fail ("PHP: cannot set both source and augeas")
+    fail ('PHP: cannot set both source and augeas')
   }
   if ($php::template and $php::bool_augeas) {
-    fail ("PHP: cannot set both template and augeas")
+    fail ('PHP: cannot set both template and augeas')
   }
 
   $manage_file_source = $php::source ? {

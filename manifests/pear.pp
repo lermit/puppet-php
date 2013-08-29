@@ -30,8 +30,8 @@ class php::pear (
 
   if ( $install_package ) {
     package { 'php-pear':
-      name   => $package,
       ensure => $version,
+      name   => $package,
     }
   }
 

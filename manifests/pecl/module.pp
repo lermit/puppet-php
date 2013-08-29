@@ -54,21 +54,23 @@ define php::pecl::module (
   $manage_service_autorestart = $service_autorestart ? {
     true    => $service ? {
       ''      => undef,
-      default => "Service[$service]",
+      default => "Service[${service}]",
     },
     false   => undef,
     undef   => undef,
   }
 
+  $real_package_name = $::operatingsystem ? {
+    ubuntu  => "php5-${name}",
+    debian  => "php5-${name}",
+    default => "php-${name}",
+  },
+
   case $use_package {
     yes: {
       package { "php-${name}":
-        name => $operatingsystem ? {
-          ubuntu  => "php5-${name}",
-          debian  => "php5-${name}",
-          default => "php-${name}",
-          },
         ensure => $ensure,
+        name   => $real_package_name,
         notify => $manage_service_autorestart,
       }
     }
@@ -112,9 +114,9 @@ define php::pecl::module (
       }
       if $php::bool_augeas == true {
         php::augeas { "augeas-${name}":
+          ensure => $ensure,
           entry  => "PHP/extension[. = \"${name}.so\"]",
           value  => "${name}.so",
-          ensure => $ensure,
           notify => $manage_service_autorestart,
           target => $config_file,
         }

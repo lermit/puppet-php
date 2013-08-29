@@ -44,7 +44,7 @@ class php::params {
     default                   => 'php',
   }
 
-  # Here it's not the php service script name but 
+  # Here it's not the php service script name but
   # web service name like apache2, nginx, etc.
   $service = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint|SLES|OpenSuSE)/ => 'apache2',
