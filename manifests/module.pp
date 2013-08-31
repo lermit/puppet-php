@@ -43,12 +43,13 @@
 # the php::module define
 #
 define php::module (
-  $version             = $php::version,
-  $service_autorestart = $php::bool_service_autorestart,
-  $service             = $php::service,
-  $module_prefix       = $php::module_prefix,
-  $absent              = $php::absent
+  $version             = 'present',
+  $service_autorestart = '',
+  $module_prefix       = '',
+  $absent              = '',
   ) {
+
+  include php
 
   if $absent {
     $real_version = 'absent'
@@ -56,17 +57,23 @@ define php::module (
     $real_version = $version
   }
 
-  $manage_service_autorestart = $service_autorestart ? {
-    true    => "Service[${service}]",
+  $real_service_autorestart = $service_autorestart ? {
+    true    => "Service[${php::service}]",
     false   => undef,
+    ''      => $php::service_autorestart
   }
 
-  $real_install_package = "${module_prefix}${name}"
+  $real_module_prefix = $module_prefix ? {
+    ''      => $php::module_prefix,
+    default => $module_prefix,
+  }
+
+  $real_install_package = "${real_module_prefix}${name}"
 
   package { "PhpModule_${name}":
     ensure  => $real_version,
     name    => $real_install_package,
-    notify  => $manage_service_autorestart,
+    notify  => $real_service_autorestart,
     require => Package['php'],
   }
 
