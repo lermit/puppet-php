@@ -21,14 +21,14 @@
 # php::pear::module { Crypt-CHAP: }
 #
 define php::pear::module (
-  $service             = $php::service,
+  $service             = '',
   $use_package         = true,
   $preferred_state     = 'stable',
   $alldeps             = false,
   $version             = 'present',
   $repository          = 'pear.php.net',
-  $service_autorestart = $php::manage_service_autorestart,
-  $module_prefix       = $php::pear_module_prefix,
+  $service_autorestart = '',
+  $module_prefix       = '',
   $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
   $ensure              = 'present',
   $timeout             = 300
@@ -68,12 +68,33 @@ define php::pear::module (
     absent  => "pear info ${pear_source}",
   }
 
+  $real_service = $service ? {
+    ''      => $php::service,
+    default => $service,
+  }
+
+  $real_service_autorestart = $service_autorestart ? {
+    true    => "Service[${real_service}]",
+    false   => undef,
+    ''      => $php::service_autorestart ? {
+      true    => "Service[${real_service}]",
+      false   => undef,
+    }
+  }
+
+  $real_module_prefix = $module_prefix ? {
+    ''      => $php::pear_module_prefix,
+    default => $module_prefix,
+  }
+  $package_name = "${real_module_prefix}${name}"
+
+
   case $bool_use_package {
     true: {
       package { "pear-${name}":
         ensure  => $ensure,
-        name    => "${module_prefix}${name}",
-        notify  => $service_autorestart,
+        name    => $package_name,
+        notify  => $real_service_autorestart,
       }
     }
     default: {
