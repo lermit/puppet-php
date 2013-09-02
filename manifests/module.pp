@@ -60,7 +60,10 @@ define php::module (
   $real_service_autorestart = $service_autorestart ? {
     true    => "Service[${php::service}]",
     false   => undef,
-    ''      => $php::service_autorestart
+    ''      => $php::service_autorestart ? {
+      true    => "Service[${php::service}]",
+      false   => undef,
+    }
   }
 
   $real_module_prefix = $module_prefix ? {
