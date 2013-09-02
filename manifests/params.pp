@@ -33,9 +33,10 @@ class php::params {
   }
 
   $pear_module_prefix = $::operatingsystem ? {
-    /(?i:Ubuntu|Debian|Mint)/ => 'php-',
-    /(?i:SLES|OpenSuSe)/      => 'php5-pear-',
-    default                   => 'pear-',
+    /(?i:Ubuntu|Debian|Mint)/             => 'php-',
+    /(?i:SLES|OpenSuSe)/                  => 'php5-pear-',
+    /(?i:CentOS|RedHat|Scientific|Linux)/ => 'php-pear-',
+    default                               => 'pear-',
   }
 
   $package = $::operatingsystem ? {
