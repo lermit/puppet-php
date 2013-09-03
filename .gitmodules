@@ -1,0 +1,3 @@
+[submodule "bind"]
+	path = bind
+	url = https://github.com/netmanagers/puppet-bind
