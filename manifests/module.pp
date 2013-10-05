@@ -46,7 +46,7 @@ define php::module (
   $version             = 'present',
   $service_autorestart = '',
   $module_prefix       = '',
-  $absent              = '',
+  $absent              = ''
   ) {
 
   include php
