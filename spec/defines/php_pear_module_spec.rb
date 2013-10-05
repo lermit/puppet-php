@@ -21,7 +21,7 @@ describe 'php::pear::module' do
     it 'should create a package with custom prefix' do
       should contain_package('pear-Crypt-CHAP').with(
         'ensure' => 'present',
-        'name'   => 'my-Crypt-CHAP',
+        'name'   => 'my-Crypt-CHAP'
       )
       should contain_package('pear-Crypt-CHAP').without('notify')
     end
@@ -39,7 +39,7 @@ describe 'php::pear::module' do
     it 'should install pear module with exec commands' do
       should contain_exec('pear-Crypt-CHAP').with(
         'command' => 'pear -d preferred_state=stable install  pear.php.net/Crypt-CHAP',
-        'unless'  => 'pear info pear.php.net/Crypt-CHAP',
+        'unless'  => 'pear info pear.php.net/Crypt-CHAP'
       )
     end
   end

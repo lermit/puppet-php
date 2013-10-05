@@ -21,7 +21,7 @@ describe 'php::module' do
     it 'should create a package with custom prefix' do
       should contain_package('PhpModule_ps').with(
         'ensure' => 'present',
-        'name'   => 'my-ps',
+        'name'   => 'my-ps'
       )
       should contain_package('PhpModule_ps').without('notify')
     end
