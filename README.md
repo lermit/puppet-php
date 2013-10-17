@@ -6,7 +6,7 @@ Made by ALessandro Franceschi / Lab42
 
 Official site: http://www.example42.com
 
-Official git repository: http://github.com/lermit/puppet-php
+Official git repository: http://github.com/example42/puppet-php
 
 Released under the terms of Apache 2 License.
 
