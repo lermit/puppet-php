@@ -88,7 +88,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           repository  => 'pear.phpunit.de',
           alldeps => 'true',
         }
-        
+
 * Set a config option
 
         php::pear::config { http_proxy: value => "myproxy:8080" }
@@ -113,12 +113,23 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 
 ## USAGE - Overrides and Customizations
-* Use custom sources for main config file
+* Use custom sources for main config file.
 
         class { 'php':
           source => [ "puppet:///modules/lab42/php/php.conf-${hostname}" , "puppet:///modules/lab42/php/php.conf" ],
         }
 
+* Manage php.ini files on Debian and Suse derivatives. Here the main config file path (managed with the source/template params) defaults to /etc/php5/apache2/php.ini. To manage other files, either set a different path in config_file or use the php::conf define.
+
+        class { 'php':
+          config_file => '/etc/php5/apache2/php.ini',      # Default value on Ubuntu/Suse
+          template    => 'example42/php/php.ini-apache2.erb',
+        }
+
+        php::conf { 'php.ini-cli':
+          path     => '/etc/php5/cli/php.ini',
+          template => 'example42/php/php.ini-cli.erb',
+        }
 
 * Use custom source directory for the whole configuration dir
 
