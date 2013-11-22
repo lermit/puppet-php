@@ -122,7 +122,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 * Manage php.ini files on Debian and Suse derivatives. Here the main config file path (managed with the source/template params) defaults to /etc/php5/apache2/php.ini. To manage other files, either set a different path in config_file or use the php::conf define.
 
         class { 'php':
-          config_file => '/etc/php5/apache2/php.ini',      # Default value on Ubuntu/Suse
+          config_file => '/etc/php5/apache2/php.ini',      # Default value on Ubuntu/Suse
           template    => 'example42/php/php.ini-apache2.erb',
         }
 
