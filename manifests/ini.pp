@@ -43,7 +43,8 @@ define php::ini (
       ensure  => 'present',
       content => template("php/${template}"),
       require => Package['php'],
-    }->
+      before  => File["${config_dir}/cli/conf.d/${target}"],
+    }
 
     file { "${config_dir}/cli/conf.d/${target}":
       ensure  => 'present',
