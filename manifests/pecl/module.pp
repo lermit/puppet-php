@@ -111,6 +111,7 @@ define php::pecl::module (
         logoutput => $pecl_exec_logoutput,
         path      => $path,
         require   => [ Class['php::pear'], Class['php::devel']],
+        notify    => $manage_service_autorestart,
       }
       if $php::bool_augeas == true {
         php::augeas { "augeas-${name}":
