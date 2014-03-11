@@ -37,7 +37,7 @@ define php::ini (
     default                                 => '/',
   }
 
-  if ("${sapi_target}" == "all"){
+  if ($sapi_target == 'all') {
 
     file { "${config_dir}${http_sapi}conf.d/${target}":
       ensure  => 'present',
