@@ -45,6 +45,7 @@ define php::pecl::module (
   $path                = '/usr/bin:/usr/sbin:/bin:/sbin',
   $verbose             = false,
   $version             = '',
+  $prefix              = false,
   $config_file         = $php::config_file) {
 
   include php
@@ -59,11 +60,18 @@ define php::pecl::module (
     false   => undef,
     undef   => undef,
   }
-
-  $real_package_name = $::operatingsystem ? {
-    ubuntu  => "php5-${name}",
-    debian  => "php5-${name}",
-    default => "php-${name}",
+  
+  case $prefix {
+      false: {
+        $real_package_name = $::operatingsystem ? {
+          ubuntu  => "php5-${name}",
+          debian  => "php5-${name}",
+          default => "php-${name}",
+      }
+    }
+      default: {
+          $real_package_name = "${prefix}${name}"
+      }
   }
 
   case $use_package {
