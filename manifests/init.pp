@@ -231,6 +231,11 @@ class php (
     default   => template($php::template),
   }
 
+  $realservice_autorestart = $bool_service_autorestart ? {
+    true  => Service[$php::service],
+    false => undef,
+  }
+
   ### Managed resources
   package { 'php':
     ensure => $php::manage_package,
@@ -248,6 +253,7 @@ class php (
     content => $php::manage_file_content,
     replace => $php::manage_file_replace,
     audit   => $php::manage_audit,
+    notify  => $realservice_autorestart,
   }
 
   # The whole php configuration directory can be recursively overriden
