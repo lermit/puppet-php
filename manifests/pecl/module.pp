@@ -83,6 +83,9 @@ define php::pecl::module (
       }
     }
     default: {
+      if $ensure and !defined(Package['libpcre3-dev']) {
+        package { "libpcre3-dev": }
+      }
 
       $bool_verbose = any2bool($verbose)
 
@@ -98,13 +101,18 @@ define php::pecl::module (
       }
 
       $pecl_exec_command = $ensure ? {
-        present => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}${new_version}",
+        present => "printf \"${auto_answer}\" | pecl -d preferred_state=${preferred_state} install ${name}${new_version} && pecl info ${name}",
         absent  => "pecl uninstall -n ${name}",
       }
 
       $pecl_exec_unless = $ensure ? {
         present => "pecl info ${name}",
         absent  => undef
+      }
+
+      $pecl_exec_require = $ensure ? {
+        present => [ Class['php::pear'], Class['php::devel'], Package['libpcre3-dev']],
+        absent  => [ Class['php::pear'], Class['php::devel']]
       }
 
       $pecl_exec_onlyif = $ensure ? {
@@ -118,7 +126,7 @@ define php::pecl::module (
         onlyif    => $pecl_exec_onlyif,
         logoutput => $pecl_exec_logoutput,
         path      => $path,
-        require   => [ Class['php::pear'], Class['php::devel']],
+        require   => $pecl_exec_require,
         notify    => $manage_service_autorestart,
       }
       if $php::bool_augeas == true {
