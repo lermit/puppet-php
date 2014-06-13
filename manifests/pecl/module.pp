@@ -83,8 +83,13 @@ define php::pecl::module (
       }
     }
     default: {
-      if $ensure and !defined(Package['libpcre3-dev']) {
-        package { "libpcre3-dev": }
+        $pcre_dev_package_name = $::operatingsystem ? {
+          ubuntu  => "libpcre3-dev",
+          debian  => "libpcre3-dev",
+          default => "pcre3-devel",
+        }
+      if $ensure and !defined(Package[$pcre_dev_package_name]) {
+        package { $pcre_dev_package_name : }
       }
 
       $bool_verbose = any2bool($verbose)
@@ -111,7 +116,7 @@ define php::pecl::module (
       }
 
       $pecl_exec_require = $ensure ? {
-        present => [ Class['php::pear'], Class['php::devel'], Package['libpcre3-dev']],
+        present => [ Class['php::pear'], Class['php::devel'], Package[$pcre_dev_package_name]],
         absent  => [ Class['php::pear'], Class['php::devel']]
       }
 
