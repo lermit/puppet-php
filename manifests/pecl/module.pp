@@ -60,7 +60,7 @@ define php::pecl::module (
     false   => undef,
     undef   => undef,
   }
-  
+
   case $prefix {
       false: {
         $real_package_name = $::operatingsystem ? {
@@ -84,9 +84,9 @@ define php::pecl::module (
     }
     default: {
         $pcre_dev_package_name = $::operatingsystem ? {
-          ubuntu  => "libpcre3-dev",
-          debian  => "libpcre3-dev",
-          default => "pcre3-devel",
+          ubuntu  => 'libpcre3-dev',
+          debian  => 'libpcre3-dev',
+          default => 'pcre3-devel',
         }
       if $ensure and !defined(Package[$pcre_dev_package_name]) {
         package { $pcre_dev_package_name : }
