@@ -83,9 +83,9 @@ define php::pecl::module (
       }
     }
     default: {
-        $pcre_dev_package_name = $::operatingsystem ? {
-          ubuntu  => 'libpcre3-dev',
-          debian  => 'libpcre3-dev',
+        $pcre_dev_package_name = $::osfamily ? {
+          'Debian'  => 'libpcre3-dev',
+          'RedHat'  => 'pcre-devel',
           default => 'pcre3-devel',
         }
       if $ensure and !defined(Package[$pcre_dev_package_name]) {
