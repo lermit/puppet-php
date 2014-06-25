@@ -38,7 +38,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           audit_only => true
         }
 
-* Install php in an nginx environment
+* Define nginx service to be notified on changes
 
         class { 'php':
           service => 'nginx'
