@@ -59,13 +59,13 @@ define php::pear::module (
   }
 
   $pear_exec_unless = $ensure ? {
-    present => "pear info ${pear_source}",
+    present => "pear info ${pear_source} | iconv -c",
     absent  => undef
   }
 
   $pear_exec_onlyif = $ensure ? {
     present => undef,
-    absent  => "pear info ${pear_source}",
+    absent  => "pear info ${pear_source} | iconv -c",
   }
 
   $real_service = $service ? {
