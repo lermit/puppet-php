@@ -111,6 +111,12 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
         php::pecl::config { http_proxy: value => "myproxy:8080" }
 
+* Auto-answer prompts for unattended-installation (where configure might used used for instance)
+
+        php::pecl::module { 'stomp':
+          use_package     => 'false',
+          auto_answer     => 'no\\n\\n',
+        }
 
 ## USAGE - Overrides and Customizations
 * Use custom sources for main config file.
