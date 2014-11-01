@@ -68,6 +68,24 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           module_prefix => "php-"
         }
 
+## USAGE - Module Configuration
+
+* Configure php module to all SAPI
+        
+        php::mod { "mcrypt": }
+
+  *__Note:__ `[name]` is filename without `.ini` extension from `/etc/php5/mods-available/<name>.ini`*
+
+* Configure multiple php module to all SAPI
+
+        $mods = ["mcrypt", "mongo"]
+        php::mod { "$mods": }
+
+* Unconfigure php module to all SAPI
+        
+        php::mod { "xdebug"
+            disable => true,
+        }
 
 ## USAGE - Pear Management
 
