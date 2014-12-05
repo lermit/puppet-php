@@ -264,6 +264,7 @@ class php (
       require => Package['php'],
       source  => $php::source_dir,
       recurse => true,
+      links   => follow,
       purge   => $php::bool_source_dir_purge,
       force   => $php::bool_source_dir_purge,
       replace => $php::manage_file_replace,
