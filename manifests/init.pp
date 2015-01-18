@@ -69,7 +69,9 @@
 #   For example, adding a `--enablerepo` option to Yum or specifying a
 #   `--no-install-recommends` option during an Apt install.
 #   NOTE: The `install_options` package class parameter was added for Yum/Apt
-#   in Puppet 3.6
+#   in Puppet 3.6. Its format of the option is an array, where each option in
+#   the array is either a string or a hash.
+#   Example: `install_options => ['-y', {'--enablerepo' => 'remi-php55'}]`
 #
 # [*absent*]
 #   Set to 'true' to remove package(s) installed by module
