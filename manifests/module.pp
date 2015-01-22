@@ -26,6 +26,9 @@
 # [*module_prefix*]
 #   If package name prefix isn't standard.
 #
+# [*install_options*]
+#   An array of package manager install options. See $php::install_options
+#
 # == Examples
 # php::module { 'gd': }
 #
@@ -44,6 +47,7 @@
 #
 define php::module (
   $version             = 'present',
+  $install_options     = [],
   $service_autorestart = '',
   $module_prefix       = '',
   $absent              = ''
@@ -71,14 +75,20 @@ define php::module (
     default => $module_prefix,
   }
 
+  $real_install_options = $install_options ? {
+    ''      => $php::install_options,
+    default => $install_options,
+  }
+
   $real_install_package = "${real_module_prefix}${name}"
 
   if defined(Package[$real_install_package]) == false {
     package { "PhpModule_${name}":
-      ensure  => $real_version,
-      name    => $real_install_package,
-      notify  => $real_service_autorestart,
-      require => Package['php'],
+      ensure          => $real_version,
+      name            => $real_install_package,
+      notify          => $real_service_autorestart,
+      install_options => $real_install_options,
+      require         => Package['php'],
     }
   }
 

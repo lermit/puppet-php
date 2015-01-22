@@ -14,6 +14,9 @@
 #   Tries to install pecl module with the relevant package.
 #   If set to "no" it installs the module via pecl command. Default: true
 #
+# [*install_options*]
+#   An array of package manager install options. See $php::install_options
+#
 # [*preferred_state*]
 #   Define which preferred state to use when installing Pear modules via pecl
 #   command line (when use_package=no). Default: true
@@ -39,6 +42,7 @@ define php::pecl::module (
   $service_autorestart = $php::bool_service_autorestart,
   $service             = $php::service,
   $use_package         = 'yes',
+  $install_options     = [],
   $preferred_state     = 'stable',
   $auto_answer         = '\\n',
   $ensure              = present,
@@ -61,6 +65,11 @@ define php::pecl::module (
     undef   => undef,
   }
 
+  $real_install_options = $install_options ? {
+    ''      => $php::install_options,
+    default => $install_options,
+  }
+
   case $prefix {
       false: {
         $real_package_name = $::operatingsystem ? {
@@ -77,9 +86,10 @@ define php::pecl::module (
   case $use_package {
     yes: {
       package { "php-${name}":
-        ensure => $ensure,
-        name   => $real_package_name,
-        notify => $manage_service_autorestart,
+        ensure          => $ensure,
+        name            => $real_package_name,
+        install_options => $real_install_options,
+        notify          => $manage_service_autorestart,
       }
     }
     default: {
