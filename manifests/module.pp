@@ -47,7 +47,7 @@
 #
 define php::module (
   $version             = 'present',
-  $install_options     = '',
+  $install_options     = [],
   $service_autorestart = '',
   $module_prefix       = '',
   $absent              = ''
@@ -77,7 +77,7 @@ define php::module (
 
   $real_install_options = $install_options ? {
     ''      => $php::install_options,
-    default => [],
+    default => $install_options,
   }
 
   $real_install_package = "${real_module_prefix}${name}"

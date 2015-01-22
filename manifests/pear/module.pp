@@ -26,7 +26,7 @@
 define php::pear::module (
   $service             = '',
   $use_package         = true,
-  $install_options     = '',
+  $install_options     = [],
   $preferred_state     = 'stable',
   $alldeps             = false,
   $version             = 'present',
@@ -94,7 +94,7 @@ define php::pear::module (
 
   $real_install_options = $install_options ? {
     ''      => $php::install_options,
-    default => [],
+    default => $install_options,
   }
 
 

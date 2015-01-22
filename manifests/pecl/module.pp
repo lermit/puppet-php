@@ -42,7 +42,7 @@ define php::pecl::module (
   $service_autorestart = $php::bool_service_autorestart,
   $service             = $php::service,
   $use_package         = 'yes',
-  $install_options     = '',
+  $install_options     = [],
   $preferred_state     = 'stable',
   $auto_answer         = '\\n',
   $ensure              = present,
@@ -67,7 +67,7 @@ define php::pecl::module (
 
   $real_install_options = $install_options ? {
     ''      => $php::install_options,
-    default => [],
+    default => $install_options,
   }
 
   case $prefix {

@@ -27,14 +27,14 @@
 class php::pear (
   $package         = $php::package_pear,
   $install_package = true,
-  $install_options = '',
+  $install_options = [],
   $version         = 'present',
   $path            = '/usr/bin:/usr/sbin:/bin:/sbin'
   ) inherits php {
 
   $real_install_options = $install_options ? {
     ''      => $php::install_options,
-    default => [],
+    default => $install_options,
   }
 
   if ( $install_package ) {
